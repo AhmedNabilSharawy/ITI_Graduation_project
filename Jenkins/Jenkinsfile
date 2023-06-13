@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone Repository') {
+            steps {
+                // Clone the repository
+                git url: 'https://github.com/your-username/your-repo.git', branch: 'main'
+            }
+        }
+        
+        stage('Build Image') {
+            steps {
+                // Build the image as per your requirements
+                sh 'docker build -t your-image:latest .'
+            }
+        }
+        
+        stage('Push to Nexus') {
+            steps {
+                // Login to the Nexus registry
+                sh 'docker login -u your-username -p your-password your-nexus-registry'
+                
+                // Tag the image with Nexus registry information
+                sh 'docker tag your-image:latest your-nexus-registry/your-repo/your-image:latest'
+                
+                // Push the image to Nexus registry
+                sh 'docker push your-nexus-registry/your-repo/your-image:latest'
+                
+            }
+        }
+        
+        stage('Deploy Image') {
+            steps {
+                // Deploy the app from the Nexus registry to Cluster
+                sh 'kubectl apply -f app.yaml
+            }
+        }
+    }
+}
