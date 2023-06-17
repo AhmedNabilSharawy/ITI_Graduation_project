@@ -1,3 +1,5 @@
+minikube start --driver=virtualbox  --cpus 4 --memory 8g --disk-size 20g
+
 kubectl exec -n tools -it jenkins-745954bdbf-shsn9 -- cat /var/jenkins_home/secrets/initialAdminPassword
 
 kubectl exec -it nexus-6b5bd9f4ff-lfrmr -n tools cat /nexus-data/admin.password

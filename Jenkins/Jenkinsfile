@@ -19,7 +19,9 @@ pipeline {
         stage('Push to Nexus') {
             steps {
                 // Login to the Nexus registry
-                sh 'docker login -u ahmed -p 111 10.107.255.174:5000'
+                withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh "docker login -u $USERNAME -p $PASSWORD 10.107.255.174:5000"
+                }
                 
                 // Tag the image with Nexus registry information
                 sh 'docker tag app:latest 10.107.255.174:5000/repository/ahmed-repo/app:latest'
