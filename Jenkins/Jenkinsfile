@@ -5,41 +5,36 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 // Clone the repository
-                git url: 'https://github.com/your-username/your-repo.git', branch: 'main'
+                git url: 'https://github.com/AhmedNabilSharawy/CICD_Jenkins_final_task_iti.git', branch: 'main'
             }
         }
         
         stage('Build Image') {
             steps {
                 // Build the image as per your requirements
-                sh 'docker build -t your-image:latest .'
+                sh 'docker build -t app:latest .'
             }
         }
         
         stage('Push to Nexus') {
             steps {
                 // Login to the Nexus registry
-                sh 'docker login -u your-username -p your-password your-nexus-registry'
+                sh 'docker login -u ahmed -p 111 10.107.255.174:5000'
                 
                 // Tag the image with Nexus registry information
-                sh 'docker tag your-image:latest your-nexus-registry/your-repo/your-image:latest'
+                sh 'docker tag app:latest 10.107.255.174:5000/repository/ahmed-repo/app:latest'
                 
                 // Push the image to Nexus registry
-                sh 'docker push your-nexus-registry/your-repo/your-image:latest'
-                
+                sh 'docker push 10.107.255.174:5000/repository/ahmed-repo/app:latest'
             }
         }
         
         stage('Deploy Image') {
             steps {
                 // Deploy the app from the Nexus registry to Cluster
-                
                 sh """
-                TOKENNAME=`kubectl -n kube-system get serviceaccount/kubeconfig-sa -o jsonpath='{.secrets[0].name}'`
-                TOKEN=`kubectl -n kube-system get secret $TOKENNAME -o jsonpath='{.data.token}'| base64 --decode`
-                kubectl config set-credentials kubeconfig-sa --token=$TOKEN
-                kubectl config set-context --current --user=kubeconfig-sa
-                kubectl apply -f app.yaml
+                kubectl apply -f myapp.yaml
+                kubectl apply -f mysql.yaml
                 """
             }
         }

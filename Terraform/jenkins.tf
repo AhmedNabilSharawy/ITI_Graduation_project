@@ -56,7 +56,11 @@ resource "kubernetes_deployment" "jenkins" {
       }
     }
   }
+      provisioner "local-exec" {
+    command = "kubectl apply -f sa.yaml"
 }
+}
+
 
 resource "kubernetes_service" "jenkins-service" {
   metadata {
