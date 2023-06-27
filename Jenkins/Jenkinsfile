@@ -20,14 +20,14 @@ pipeline {
             steps {
                 // Login to the Nexus registry
                 withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh "docker login -u $USERNAME -p $PASSWORD 10.107.255.174:5000"
+                    sh "docker login -u $USERNAME -p $PASSWORD 10.103.254.180:5000"
                 }
                 
                 // Tag the image with Nexus registry information
-                sh 'docker tag app:latest 10.107.255.174:5000/repository/ahmed-repo/app:latest'
+                sh 'docker tag app:latest 10.103.254.180:5000/repository/ahmed-repo/app:latest'
                 
                 // Push the image to Nexus registry
-                sh 'docker push 10.107.255.174:5000/repository/ahmed-repo/app:latest'
+                sh 'docker push 10.103.254.180:5000/repository/ahmed-repo/app:latest'
             }
         }
         
@@ -35,9 +35,9 @@ pipeline {
             steps {
                 // Deploy the app from the Nexus registry to Cluster
                 sh """
-                kubectl apply -f myapp.yaml
-                kubectl apply -f mysql.yaml
-                """
+                kubectl apply -f myapp.yaml 
+
+                kubectl apply -f mysql.yaml 
             }
         }
     }
