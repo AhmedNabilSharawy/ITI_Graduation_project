@@ -16,7 +16,6 @@ spec:
       serviceAccountName: jenkins
       containers:
         - name: my-app
-          image: 10.107.255.174:5000/repository/ahmed-repo/app:latest
+          image: 10.103.254.180:5000/repository/ahmed-repo/app:latest
           ports:
             - containerPort: 3000
-

@@ -12,5 +12,6 @@ kubectl get deployments --as system:serviceaccount:jenkins -n dev
 kubectl auth can-i create deployments --as=system:serviceaccount:dev:jenkins -n dev
 
 echo -n "ahmed" | base64
+echo "bmFiaWw=" | base64 --decode
 
 kubectl exec -it mysql-7cccd7f54d-xj42n -n dev -- mysql -u ahmed -p
